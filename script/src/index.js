@@ -48,7 +48,7 @@ const jsonModel = {
 let rowData = []
 let formatedData;
 
-const fileReadingPath = path.join('..','files', 'example.txt');
+const fileReadingPath = path.join('..','files', 'banner-input.txt');
 const outputReadingPath = path.join('..','files', 'output.txt');
 
 let splitedData = []
@@ -154,6 +154,12 @@ const createFormatedJson = async() =>{
 const createFile = async() =>{
     try{
         await createFormatedJson()
+
+        const now = new Date();
+        const dateString = `${now.getDate().toString().padStart(2, '0')}.${(now.getMonth() + 1).toString().padStart(2, '0')}.${now.getFullYear().toString().padStart(4, '0')}-${now.getHours().toString().padStart(2, '0')}.${now.getMinutes().toString().padStart(2, '0')}`
+
+        const dynamicUutputReadingPath = path.join('..','files', 'outputs', `Banner-${dateString}_output.txt`);
+
         // const commaValidation = await checkIfNeedCommaOnOutput()
         // if(commaValidation){
         //    await insertCommaOnOutput() 
@@ -166,7 +172,9 @@ const createFile = async() =>{
         const formatedOutput = JSON.stringify(formatedData, null, 2)
 
     //    await fs.appendFile(outputReadingPath,formatedOutput.substring(1, formatedOutput.length - 1).slice(0, -1) )
-    await fs.appendFile(outputReadingPath,formatedOutput )
+    // await fs.appendFile(outputReadingPath,formatedOutput )
+    await fs.writeFile(dynamicUutputReadingPath,formatedOutput )
+
 
 
     }catch (e) {
